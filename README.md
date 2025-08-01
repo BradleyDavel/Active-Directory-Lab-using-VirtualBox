@@ -140,34 +140,80 @@ Step 6: Join Client01 to the Domain
 
 
 
-Step 7: Create OUs and Domain Users on DC01
-1. Open Active Directory Users and Computers
-2. Create OUs:
-   - IT, Sales, Users, Workstations
-3. Create users:
-   - `alice` in IT
-   - `bob` in Sales
-   - `itadmin` in IT
-4. Optional: Use PowerShell:
+🛠️ STEP 7 – Create Domain Users, OUs, and GPOs
+
+✅ 7.1: Open Active Directory Tools on DC01
+Log into DC01 as CORP\Administrator
+Open Server Manager → Tools (top-right corner)
+Click: Active Directory Users and Computers (ADUC)
+
+✅ 7.2: Create Organizational Units (OUs)
+In ADUC, right-click your domain (corp.local) → New → Organizational Unit
+Create the following structure:
+
+corp.local
+├── Users
+├── IT
+├── Sales
+└── Workstations
+
+OUs help organize users, computers, and apply GPOs logically.
+
+✅ 7.3: Create Domain Users
+Method 1: GUI (Simple)
+Right-click IT → New → User
+Add:
+          - First name: Alice
+          - Username: alice
+          - Password: P@ssw0rd!
+          - Uncheck: "User must change password at next logon"
+Repeat for:
+          - bob (OU: Sales)
+          - itadmin (OU: IT, will become Domain Admin later)
+
+Method 2: PowerShell (Faster)
+Open PowerShell as Administrator
+Run:
+
 New-ADUser -Name "Alice IT" -SamAccountName alice -UserPrincipalName alice@corp.local -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true -Path "OU=IT,DC=corp,DC=local"
 
-6. Add `itadmin` to Domain Admins group
-7. Move `Client01` from `Computers` to `Workstations` OU  <br> <br>
+New-ADUser -Name "Bob Sales" -SamAccountName bob -UserPrincipalName bob@corp.local -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true -Path "OU=Sales,DC=corp,DC=local"
 
+New-ADUser -Name "ItAdmin" -SamAccountName itadmin -UserPrincipalName itadmin@corp.local -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true -Path "OU=IT,DC=corp,DC=local"
 
+✅ 7.4: Add itadmin to Domain Admins
+Useful for simulating a privileged account for BloodHound / attack paths
+Open ADUC
+Go to: corp.local → Users → Domain Admins
+Right-click → Properties → Members → Add
+Type: itadmin → OK
 
-Step 8: Create and Apply a GPO
-1. Open Group Policy Management
-2. Right-click `IT` OU → Create GPO: `Set Desktop Background`
-3. Edit the GPO:
-   - Path: `User Config → Admin Templates → Desktop → Desktop`
-   - Enable Desktop Wallpaper → Set path: `C:\Windows\Web\Wallpaper\Windows\img0.jpg`
-4. Link GPO to IT OU
-5. On `Client01` as `alice`, run:
-gpupdate /force
+✅ 7.5: Move Client Computer to Workstations OU
+In ADUC, click corp.local → Computers
+Right-click CLIENT01 → Move
+Select OU: Workstations → OK
 
-6. Log out and back in to see wallpaper policy applied  <br> <br>
+✅ 7.6: Create a Basic GPO (Example: Desktop Wallpaper)
+Open Group Policy Management (Server Manager → Tools)
+Right-click corp.local or any OU → Create a GPO
+Name: Set Desktop Background
+Right-click the GPO → Edit
+Navigate to:
+User Configuration → Administrative Templates → Desktop → Desktop
+Double-click Desktop Wallpaper
+Set to Enabled
+Wallpaper Name: C:\Windows\Web\Wallpaper\Windows\img0.jpg
+Style: Fill
+Click OK
 
+✅ 7.7: Link the GPO
+In Group Policy Management:
+Right-click IT OU → Link an existing GPO → Select Set Desktop Background
+Now, only users under the IT OU will get this wallpaper policy at login.
 
+✅ 7.8: Force Policy Update on Client01
+Log into Client01 as alice
+Run: gpupdate /force
+Log out and log back in to see wallpaper policy
 
 ✅ Lab Ready! Your environment is now a functioning domain with organized users, computers, and policies — ready for blue/red team exercises, enumeration, scripting, and automation.
