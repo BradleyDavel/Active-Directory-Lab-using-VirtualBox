@@ -7,7 +7,25 @@ This lab simulates a small enterprise network with an Active Directory Domain Co
 
 ![Network Diagram](images/network_diagram.png)
 
+✅ Prerequisites
 
+Before setting up the lab, install the required software:
+
+1.VirtualBox (Windows/Linux/macOS):https://www.virtualbox.org/wiki/Downloads
+
+2.VirtualBox Extension Pack (enables USB, RDP, etc.):https://www.virtualbox.org/wiki/Downloads
+
+4.Enable Virtualization (VT-x or AMD-V) in BIOS/UEFI:
+
+ -Restart your computer and enter BIOS/UEFI setup (usually by pressing Del, F2, or F10 during boot)
+
+ -Find the setting labeled Intel VT-x, Intel Virtualization Technology, or AMD-V
+
+ -Enable the setting
+
+ -Save and exit BIOS (usually F10)
+
+Ensure your system supports virtualization and that it's turned on. Most modern CPUs support this feature.
 
 ✅ Lab Setup Instructions
 
