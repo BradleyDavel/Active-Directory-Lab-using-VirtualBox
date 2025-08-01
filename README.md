@@ -27,7 +27,7 @@ Before setting up the lab, install the required software:
 
 Ensure your system supports virtualization and that it's turned on. Most modern CPUs support this feature.
 
-✅ Lab Setup Instructions
+✅ Lab Setup Instructions:
 
 Step 1: Configure Host-Only Network in VirtualBox
 1. Open VirtualBox → `File → Tools → Network Manager`
@@ -36,7 +36,7 @@ Step 1: Configure Host-Only Network in VirtualBox
    - IPv4 Address: `192.168.56.1`
    - Subnet Mask: `255.255.255.0`
    - Uncheck DHCP Server
-4. Save and close
+4. Save and close  <br> 
 
 
 
@@ -52,7 +52,7 @@ Download the following ISO files before creating your virtual machines:
 3. Kali Linux (Optional - Attacker VM):  
    [https://www.kali.org/get-kali/](https://www.kali.org/get-kali/)
 
-Make sure to verify the file integrity with provided checksums if needed.
+Make sure to verify the file integrity with provided checksums if needed.  
 
 
 
@@ -69,7 +69,7 @@ Step 3: Install Windows Server (DC01)
    - Subnet: `255.255.255.0`
    - Gateway: `192.168.56.1`
    - DNS: `192.168.56.10`
-6. Verify network access: `ping 192.168.56.1`
+6. Verify network access: `ping 192.168.56.1`  
 
 
 
@@ -85,7 +85,7 @@ Step 4: Promote DC01 to Domain Controller
 9. Log in with: `CORP\Administrator`
 10. Confirm SYSVOL and NETLOGON exist:
     - Run: `\DC01` in File Explorer
-    - Or: `net share` in Command Prompt
+    - Or: `net share` in Command Prompt  
 
 
 
@@ -126,7 +126,7 @@ You can now use this ISO to install Windows 10 Pro in your VM.
    - DNS: `192.168.56.10`
 
 2. Confirm connection to DC:
-   - Open Command Prompt → `ping dc01` or `ping 192.168.56.10`
+   - Open Command Prompt → `ping dc01` or `ping 192.168.56.10`  
 
 
 
@@ -136,7 +136,7 @@ Step 6: Join Client01 to the Domain
    - Username: `Administrator`
    - Password: `P@ssw0rd!`
 3. Reboot
-4. Log in with domain account: `CORP\Administrator`
+4. Log in with domain account: `CORP\Administrator`  
 
 
 
@@ -152,7 +152,7 @@ Step 7: Create OUs and Domain Users on DC01
 New-ADUser -Name "Alice IT" -SamAccountName alice -UserPrincipalName alice@corp.local -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true -Path "OU=IT,DC=corp,DC=local"
 
 5. Add `itadmin` to Domain Admins group
-6. Move `Client01` from `Computers` to `Workstations` OU
+6. Move `Client01` from `Computers` to `Workstations` OU  
 
 
 
@@ -166,7 +166,7 @@ Step 8: Create and Apply a GPO
 5. On `Client01` as `alice`, run:
 gpupdate /force
 
-6. Log out and back in to see wallpaper policy applied
+6. Log out and back in to see wallpaper policy applied  
 
 
 
