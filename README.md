@@ -3,6 +3,12 @@
 📄 Overview
 This lab simulates a small enterprise network with an Active Directory Domain Controller (DC), a domain-joined Windows 10 Pro client, All virtual machines are isolated using a VirtualBox host-only network to ensure a safe environment for experimentation.
 
+🖼️ Network Diagram
+
+![Network Diagram](images/network_diagram.png)
+
+
+
 ✅ Lab Setup Instructions
 
 Step 1: Configure Host-Only Network in VirtualBox
